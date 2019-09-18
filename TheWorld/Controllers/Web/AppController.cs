@@ -13,11 +13,11 @@ namespace TheWorld.Controllers.Web
     {
         private readonly IConfigurationRoot _config;
         private readonly IMailService _mailService;
-        private readonly IWorldRepository _repository;
+        private readonly IMyDbRepository _repository;
         private readonly ILogger<AppController> _logger;
 
         public AppController(IConfigurationRoot config, IMailService mailService,
-            IWorldRepository repository, ILogger<AppController> logger)
+            IMyDbRepository repository, ILogger<AppController> logger)
         {
             _config = config;
             _mailService = mailService;

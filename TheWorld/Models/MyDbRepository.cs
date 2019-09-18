@@ -6,12 +6,12 @@ using Microsoft.Extensions.Logging;
 
 namespace TheWorld.Models
 {
-    public class WorldRepository : IWorldRepository
+    public class MyDbRepository : IMyDbRepository
     {
-        private readonly WorldContext _context;
-        private readonly ILogger<WorldRepository> _logger;
+        private readonly MyDbContext _context;
+        private readonly ILogger<MyDbRepository> _logger;
 
-        public WorldRepository(WorldContext context, ILogger<WorldRepository> logger)
+        public MyDbRepository(MyDbContext context, ILogger<MyDbRepository> logger)
         {
             _context = context;
             _logger = logger;

@@ -1,14 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace TheWorld.Models
 {
-    public class WorldContext : DbContext
+    public class MyDbContext : IdentityDbContext
     {
         private readonly IConfigurationRoot _config;
         public DbSet<Trip> Trips { get; set; }
         public DbSet<Stop> Stops { get; set; }
-        public WorldContext(DbContextOptions options, IConfigurationRoot config) : base(options)
+        public MyDbContext(DbContextOptions options, IConfigurationRoot config) : base(options)
         {
             _config = config;
         }

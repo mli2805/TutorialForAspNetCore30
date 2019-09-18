@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace TheWorld.Models
 {
-    public class WorldContextSeedData
+    public class MyDbContextSeedData
     {
-        private readonly WorldContext _context;
+        private readonly MyDbContext _context;
 
-        public WorldContextSeedData(WorldContext context)
+        public MyDbContextSeedData(MyDbContext context)
         {
             _context = context;
         }

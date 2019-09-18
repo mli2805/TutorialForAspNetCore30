@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace TheWorld.Models
 {
-    public interface IWorldRepository
+    public interface IMyDbRepository
     {
         IEnumerable<Trip> GetAllTrips();
         Trip GetTripByName(string tripName);

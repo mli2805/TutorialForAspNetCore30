@@ -15,13 +15,13 @@ namespace TheWorld.Controllers.Api
     [Route("api/trips/{tripName}/stops")]
     public class StopsController : Controller
     {
-        private readonly IWorldRepository _repository;
+        private readonly IMyDbRepository _repository;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         private readonly GeoCoordsService _geoCoordsService;
 
 
-        public StopsController(IWorldRepository repository, IMapper mapper,
+        public StopsController(IMyDbRepository repository, IMapper mapper,
             ILogger<StopsController> logger, GeoCoordsService geoCoordsService)
         {
             _repository = repository;

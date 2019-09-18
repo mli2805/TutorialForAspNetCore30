@@ -12,11 +12,11 @@ namespace TheWorld.Controllers.Api
     [Route("api/trips")]
     public class TripsController : Controller
     {
-        private readonly IWorldRepository _repository;
+        private readonly IMyDbRepository _repository;
         private readonly IMapper _mapper;
         private readonly ILogger<TripsController> _logger;
 
-        public TripsController(IWorldRepository repository, IMapper mapper, ILogger<TripsController> logger)
+        public TripsController(IMyDbRepository repository, IMapper mapper, ILogger<TripsController> logger)
         {
             _repository = repository;
             _mapper = mapper;

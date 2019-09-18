@@ -37,11 +37,15 @@ namespace TheWorld
             if (_environment.IsDevelopment())
                 services.AddScoped<IMailService, DebugMailService>();
 
-            services.AddDbContext<WorldContext>();
-            services.AddScoped<IWorldRepository, WorldRepository>();
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<MyDbContext>();
+            services.AddEntityFrameworkSqlServer()
+                .AddDbContext<MyDbContext>();
+            services.AddScoped<IMyDbRepository, MyDbRepository>();
+
             services.AddTransient<GeoCoordsService>();
 
-            services.AddTransient<WorldContextSeedData>();
+            services.AddTransient<MyDbContextSeedData>();
             services.AddLogging(loggingBuilder => { loggingBuilder.AddDebug(); });
 
             // Auto Mapper Configurations
@@ -57,12 +61,14 @@ namespace TheWorld
             {
                 config.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             });
-        
+
+//            services.AddScoped<IUserStore<IdentityUser>, MyUserStore>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, 
-            WorldContextSeedData seeder)
+            MyDbContextSeedData seeder)
         {
             if (env.IsDevelopment())
             {

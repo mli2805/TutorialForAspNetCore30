@@ -9,8 +9,8 @@ using TheWorld.Models;
 
 namespace TheWorld.Migrations
 {
-    [DbContext(typeof(WorldContext))]
-    [Migration("20190911132239_InitialDatabase")]
+    [DbContext(typeof(MyDbContext))]
+    [Migration("20190918101131_InitialDatabase")]
     partial class InitialDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
