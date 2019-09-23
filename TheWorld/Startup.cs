@@ -1,5 +1,8 @@
+using System;
 using System.Text.Json;
+using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -37,11 +40,38 @@ namespace TheWorld
             if (_environment.IsDevelopment())
                 services.AddScoped<IMailService, DebugMailService>();
 
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<IdentityUser, IdentityRole>(config =>
+                {
+                    config.Password.RequireDigit = false;
+                    config.Password.RequireNonAlphanumeric = false;
+                    config.Password.RequireUppercase = false;
+                    config.Password.RequiredLength = 1;
+                })
                 .AddEntityFrameworkStores<MyDbContext>();
             services.AddEntityFrameworkSqlServer()
                 .AddDbContext<MyDbContext>();
             services.AddScoped<IMyDbRepository, MyDbRepository>();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Auth/Login";
+                options.Events = new CookieAuthenticationEvents()
+                {
+                    OnRedirectToLogin = async ctx =>
+                    {
+                        if (ctx.Request.Path.StartsWithSegments("/api", StringComparison.InvariantCulture)
+                            && ctx.Response.StatusCode == 200)
+                        {
+                            ctx.Response.StatusCode = 401;
+                        }
+                        else
+                        {
+                            ctx.Response.Redirect(ctx.RedirectUri);
+                        }
+
+                        await Task.Yield();
+                    }
+                };
+            });
 
             services.AddTransient<GeoCoordsService>();
 
@@ -62,8 +92,6 @@ namespace TheWorld
                 config.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             });
 
-//            services.AddScoped<IUserStore<IdentityUser>, MyUserStore>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,10 +102,18 @@ namespace TheWorld
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseHsts();
+            }
            
-            // app.UseDefaultFiles();
-            app.UseStaticFiles();
+            app.UseHttpsRedirection();
 
+
+            app.UseStaticFiles();
+            app.UseAuthentication();
+          //  app.UseAuthorization();
+            
             app.UseMvc(config =>
             {
                 config.MapRoute(

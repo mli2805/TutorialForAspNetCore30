@@ -12,44 +12,57 @@
 </head>
 <body>
     <div id="sidebar">
-        <img src="~/img/neanderthal-museum.jpg" alt="neanderthal" class="headshot" />
-        <span id="username">Sam Hastings</span>
-                <ul class="nav">
-                    <li class="active">
-                        <a asp-controller="App" asp-action="Index">Home</a>
-                    </li>
-                    <li>
-                        <a asp-controller="App" asp-action="About">About</a>
-                    </li>
-                    <li>
-                        <a asp-controller="App" asp-action="Contacts">Contacts</a>
-                    </li>
-                </ul>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <img src="~/img/neanderthal-museum.jpg" alt="neanderthal" class="headshot" />
+            <span id="username">@User.Identity.Name</span>
+        }
+
+        <ul class="nav">
+            <li class="active">
+                <a asp-controller="App" asp-action="Index">Home</a>
+            </li>
+            <li>
+                <a asp-controller="App" asp-action="About">About</a>
+            </li>
+            <li>
+                <a asp-controller="App" asp-action="Contacts">Contacts</a>
+            </li>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li>
+                    <a asp-controller="App" asp-action="Trips">Trips</a>
+                </li>
+                <li>
+                    <a asp-controller="Auth" asp-action="Logout">Logout</a>
+                </li>
+            }
+        </ul>
     </div>
     <div id="wrapper">
         <nav class="navbar navbar-expand-sm navbar-dark">
-                <ul class="nav navbar-nav navbar-left">
-                    <li>
-                        <button id="sidebarToggle" class="btn btn-info btn-sm">
-                            <i class="fa fa-chevron-left"></i>
-                        </button>
-                    </li>
-                </ul>
-                <a asp-controller="App" asp-action="Index">
-                    <h4 class="text-primary">The World</h4>
-                </a>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="#" class="btn btn-sm btn-info">
-                            <i class="fa fa-save"></i> Save
-                        </a>
-                    </li>
-                    <li class="ml-2">
-                        <a href="#" class="btn btn-sm btn-info">
-                            <i class="fa fa-print"></i> Print
-                        </a>
-                    </li>
-                </ul>
+            <ul class="nav navbar-nav navbar-left">
+                <li>
+                    <button id="sidebarToggle" class="btn btn-info btn-sm">
+                        <i class="fa fa-chevron-left"></i>
+                    </button>
+                </li>
+            </ul>
+            <a asp-controller="App" asp-action="Index">
+                <h4 class="text-primary">The World</h4>
+            </a>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" class="btn btn-sm btn-info">
+                        <i class="fa fa-save"></i> Save
+                    </a>
+                </li>
+                <li class="ml-2">
+                    <a href="#" class="btn btn-sm btn-info">
+                        <i class="fa fa-print"></i> Print
+                    </a>
+                </li>
+            </ul>
         </nav>
         <div id="main" class="container-fluid">
             @RenderBody()
@@ -64,21 +77,21 @@
         </div>
     </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" 
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" 
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" 
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" 
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" 
-        crossorigin="anonymous"></script>
-<script type="text/javascript" 
-        src="~/js/site.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script type="text/javascript"
+            src="~/js/site.js"></script>
     @RenderSection("script", false);
-<script>
-    $('#year').text(new Date().getFullYear());
-</script>
+    <script>
+        $('#year').text(new Date().getFullYear());
+    </script>
 
 </body>
 </html>

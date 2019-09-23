@@ -1,7 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -23,8 +20,6 @@ namespace TheWorld.Models
 
             optionsBuilder.UseSqlServer(_config["ConnectionStrings:WorldContextConnection"]);
         }
-
-
 
     }
 

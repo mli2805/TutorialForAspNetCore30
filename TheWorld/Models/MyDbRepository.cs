@@ -17,10 +17,20 @@ namespace TheWorld.Models
             _logger = logger;
         }
 
+
+
         public IEnumerable<Trip> GetAllTrips()
         {
             _logger.LogInformation("Getting all trips from the database");
             return _context.Trips.Include(t=>t.Stops).ToList();
+        }
+
+        public IEnumerable<Trip> GetTripsByUsername(string identityName)
+        {
+            return _context.Trips
+                .Include(t => t.Stops)
+                .Where(t => t.UserName == identityName)
+                .ToList();
         }
 
         public Trip GetTripByName(string tripName)

@@ -35,7 +35,7 @@ namespace TheWorld.Controllers.Web
         {
             try
             {
-                var data = _repository.GetAllTrips();
+                var data = _repository.GetTripsByUsername(User.Identity.Name);
                 return View(data);
             }
             catch (Exception e)

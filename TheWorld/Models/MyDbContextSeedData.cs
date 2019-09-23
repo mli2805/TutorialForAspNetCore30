@@ -2,30 +2,52 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 
 namespace TheWorld.Models
 {
     public class MyDbContextSeedData
     {
         private readonly MyDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly ILogger<MyDbContextSeedData> _logger;
 
-        public MyDbContextSeedData(MyDbContext context)
+        public MyDbContextSeedData(MyDbContext context, UserManager<IdentityUser> userManager, ILogger<MyDbContextSeedData> logger)
         {
             _context = context;
+            _userManager = userManager;
+            _logger = logger;
         }
 
         public async Task EnsureSeedData()
         {
-//            if (await _userManager.FindByEmailAsync("sam.hastings@theworld.com") == null)
-//            {
-//                var user = new WorldUser()
-//                {
-//                    UserName = "samhastings",
-//                    Email = "sam.hastings@theworld.com",
-//                };
-//
-//                await _userManager.CreateAsync(user, "P@ssw0rd!");
-//            }
+            if (await _userManager.FindByEmailAsync("sam.hastings@theworld.com") == null)
+            {
+                var user = new IdentityUser()
+                {
+                    UserName = "samhastings",
+                    Email = "sam.hastings@theworld.com",
+                };
+
+                var result = await _userManager.CreateAsync(user, "P@ssw0rd!");
+                if (!result.Succeeded)
+                    _logger.LogCritical("Can't create user!");
+
+            }
+
+            if (await _userManager.FindByEmailAsync("root@gmail.com") == null)
+            {
+                var user = new IdentityUser()
+                {
+                    UserName = "root",
+                    Email = "root@gmail.com",
+                };
+
+                var result = await _userManager.CreateAsync(user, "root");
+                if (!result.Succeeded)
+                    _logger.LogCritical("Can't create user!");
+            }
 
             if (_context.Trips.Any())
                 return;
@@ -34,7 +56,7 @@ namespace TheWorld.Models
             {
                 DateCreated = DateTime.UtcNow,
                 Name = "US Trip",
-                UserName = "samhastings", 
+                UserName = "samhastings",
                 Stops = new List<Stop>()
                 {
                     new Stop() {  Name = "Atlanta, GA", Arrival = new DateTime(2014, 6, 4), Latitude = 33.748995, Longitude = -84.387982, Order = 0 },
